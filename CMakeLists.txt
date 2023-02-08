@@ -131,6 +131,16 @@ set(VAST_UNIT_TEST_TIMEOUT
     "60"
     CACHE STRING "The per-test timeout in unit tests" FORCE)
 
+# -- fuzzing -------------------------------------------------------------------
+
+option(VAST_ENABLE_CIFUZZ "Build fuzz tests with the cifuzz CLI tool" OFF)
+add_feature_info("VAST_ENABLE_CIFUZZ" VAST_ENABLE_CIFUZZ
+                 "build fuzz tests with the cifuzz CLI tool.")
+if (VAST_ENABLE_CIFUZZ)
+  find_package(cifuzz NO_SYSTEM_ENVIRONMENT_PATH)
+  enable_fuzz_testing()
+endif ()
+
 # -- library flavor ------------------------------------------------------------
 
 option(BUILD_SHARED_LIBS "Build shared instead of static libraries" ON)
@@ -812,6 +822,7 @@ endif ()
 # -- add subdirectories --------------------------------------------------------
 
 add_subdirectory(libvast)
+add_subdirectory(libvast_cifuzz)
 add_subdirectory(libvast_test)
 add_subdirectory(tools)
 add_subdirectory(vast)
